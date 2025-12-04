@@ -98,5 +98,3 @@ The output will be processed image and a resulting table like the one below woul
 ![Alt ](/Fig/Demo_prototype2.jpg)
 
 
-# Authors 
-Kanwal Aftab, Linda Tschirren, Boris Pasini, Peter Zeller, Bostan Khan and Muhammad Moazam Fraz
