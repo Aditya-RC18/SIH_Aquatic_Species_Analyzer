@@ -1,100 +1,206 @@
-# Fish-Sense 
-**Automated Biomass Estimation and Early Disease Detection in Aquaculture using computer vision**
-# Introduction
-We present a three-tiered process for automated  biomass estimation and disease detection as detailed in the Figure. The initial step involves generating a segmentation mask of the fish using Mask-RCNN, which aids in calculating crucial parameters such as length and height. Simultaneously, the fish species is identified leveraging a Convolutional Neural Network (CNN). In the next step, these parameters are incorporated to estimate the biomass. In addition we have trained a CNN module to classify fish into healthy and unhealthy categories, and subsequently identifying symptoms and locations of bacterial infections if a fish is classified as unhealthy. 
+# 🐟 Fish-Sense
 
-![Alt ](/Fig/Methodology_diagram.png)
+### **Automated Biomass Estimation & Early Disease Detection in Aquaculture**
 
-# Abstract
+Fish-Sense is a computer-vision–based system designed to assist fish farmers and researchers by automatically estimating fish biomass and detecting early signs of disease. Instead of depending on manual measurements or expert inspection, this project uses deep learning to analyze fish images and provide accurate, fast, and easy-to-understand results — all through a simple web interface.
 
-With the burgeoning global demand for seafood, potential solutions like aquaculture are increasingly significant, provided they address issues like pollution and food security challenges in a sustainable manner. However, significant obstacles such as disease outbreaks and inaccurate biomass estimation underscore the need for optimized solutions. This paper proposes a deep learning-based pipeline, developed in conjunction with fish farms, aiming to enhance disease detection and biomass estimation in aquaculture reservoirs. Our automated framework is two-pronged: one module for biomass estimation using deep learning algorithms to segment fish, classify species, and estimate biomass; and another for disease symptom detection that classifies fish health status and identifies bacterial infection symptoms and locations in unhealthy fish. To circumvent data scarcity in this field, we curated four novel real-world datasets for fish segmentation, health classification, species classification, and fish part segmentation. Our biomass estimation algorithms demonstrated substantial accuracy across five species, and the health classification. These algorithms form the basis for developing software solutions to bolster fish health monitoring in aquaculture farms. Our integrated pipeline facilitates the transition from research to real-world applications, potentially encouraging responsible aquaculture practices. Nevertheless, these advancements must be seen as part of a comprehensive strategy aimed at improving the aquaculture industry's sustainability and efficiency, in line with the United Nations' Sustainable Development Goals' evolving interpretations.
+---
 
-# Trained Models and Datasets
+## 📌 What This Project Does
 
-To run this project trained models can be obtained on permission from the authors by filling the form below:
+When an image is uploaded, Fish-Sense performs **three major tasks**:
 
-https://docs.google.com/forms/d/e/1FAIpQLScHzbEzj97v6YZn3EdU8Pt4aMXj5cGPe4qJ05mQrM6df54tJg/viewform?usp=sf_link
+### **1️⃣ Fish Segmentation & Measurement**
 
-Dataset used in this project can also be requested using same form.
-There are four datasets available that can be utilized for training deep learning models in various tasks:
+* Uses **Mask R-CNN** to detect fish in the image.
+* Generates a **segmentation mask**.
+* Measures **length**, **height**, and related geometric parameters.
+* These measurements are used for biomass estimation.
 
-- Fish Segmentation
-- Species Classification
-- Healthy/Unhealthy Classification
-- Fish Body Part Segmentation
+### **2️⃣ Fish Species Classification**
 
-The code required to train the models from scratch can be found in the supporting materials, specifically under the "colab training - file" folder. By using this code, you can obtain the weights and set up the models as per your needs.
+* A CNN identifies the **fish species**.
+* Supports multiple aquaculture-relevant species.
 
-Alternatively, if you prefer to use pre-trained models, you can directly request them from the authors. Once obtained, simply place the trained models in the designated "trained_models" folder for seamless integration into your project.
+### **3️⃣ Fish Health Analysis**
 
-## Requirements
--   Python > 3.7
--   Pytorch
--   opencv-python 4.8.0.74
--   Django==3.2.8
--   djangorestframework==3.12.4
--   imutil==0.3.4
--   imutils==0.5.4
--   tensorflow==2.13.0
--   scipy==1.11.1
+* Classifies fish as **Healthy** or **Unhealthy**.
+* If unhealthy, the model detects:
 
-# Installation Instructions
-Create a new conda environment uisng command 
+  * **Bacterial infection type**
+  * **Location of infection** on the fish body
 
-```bash 
-conda create --name your_env_name python
+All results appear visually and in a clean results table.
+
+---
+
+## 🧠 How the System Works
+
+Below is the complete system workflow:
+
+![Methodology](/Fig/Methodology_diagram.png)
+
+### Simple Processing Steps:
+
+1. **Upload an image** through the web app
+2. The backend models analyze the fish:
+
+   * Mask-RCNN → segmentation + measurements
+   * CNN → species classification
+   * CNN → health and disease detection
+3. You receive:
+
+   * A processed image
+   * A results table summarizing biomass, species, and health
+
+---
+
+## 📝 Abstract (Simple Student-Friendly Version)
+
+Aquaculture is growing quickly due to rising demand for seafood, but fish farms still struggle with disease outbreaks and inaccurate biomass measurements. These issues lead to lower productivity and financial losses. Fish-Sense provides a deep-learning–powered solution that helps farmers monitor fish health and estimate biomass automatically.
+
+The system includes models for:
+
+* Fish segmentation
+* Species classification
+* Healthy/unhealthy detection
+* Body-part segmentation
+
+To support model training, four custom datasets were created from real fish farm environments. The final models show strong accuracy and can support automated fish health monitoring, contributing to smarter and more sustainable aquaculture practices.
+
+---
+
+## 📦 Datasets & Pretrained Models
+
+This project uses **four custom-built datasets** created specifically for aquaculture-based deep learning tasks:
+
+* **Fish Segmentation Dataset**
+* **Fish Species Classification Dataset**
+* **Healthy vs Unhealthy Classification Dataset**
+* **Fish Body-Part Segmentation Dataset**
+
+Training notebooks (Google Colab files) are provided inside:
+
 ```
-After running this command, you can activate the virtual environment using:
-```bash 
-conda activate your_env_name
+colab training - file/
 ```
-Once the virtual env is created install pytorch using command (For windows and CPU only):  
-```bash 
-conda install pytorch torchvision torchaudio cpuonly -c pytorch
-```
-Otherwise for GPU enabled environment or for linux OS or both, various installation commands can be found here: https://pytorch.org/get-started/locally/ <br />
 
-Install OpenCV using command. 
+Pretrained model weights should be placed inside:
+
+```
+trained_models/
+```
+
+---
+
+## 🛠 Requirements
+
+* Python 3.7+
+* PyTorch
+* OpenCV 4.8.0.74
+* Django 3.2.8
+* djangorestframework 3.12.4
+* imutil 0.3.4
+* imutils 0.5.4
+* TensorFlow 2.13.0
+* SciPy 1.11.1
+
+---
+
+## ⚙️ Installation Instructions
+
+### **1️⃣ Create a Conda environment**
 
 ```bash
- pip install opencv-python 
+conda create --name your_env_name python
+conda activate your_env_name
 ```
-Note: Pytorch and OpenCV are the prerequisite to install detectron2
 
-Install the detectron2 repository on local PC git clone 
+### **2️⃣ Install PyTorch**
 
+**Windows (CPU only):**
+
+```bash
+conda install pytorch torchvision torchaudio cpuonly -c pytorch
+```
+
+For GPU/Linux, check official instructions:
+[https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/)
+
+### **3️⃣ Install OpenCV**
+
+```bash
+pip install opencv-python
+```
+
+### **4️⃣ Install Detectron2**
 
 ```bash
 python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
 ```
 
-Install the libraries and modules listed in  requirement.txt file  
+### **5️⃣ Install all project dependencies**
 
-```bash 
+```bash
 pip install -r requirements.txt
 ```
 
+---
 
-## Steps To run the project
+## ▶️ Running the Project
 
-In your anaconda environment and workspace folder type the below command to run the project 
+Start the Django backend:
+
 ```bash
 python manage.py runserver
 ```
-If the libraries are installed correctly:
-Proceed with the  generated link. http://127.0.0.1:8000/ 
 
-Copy and paste this link in the address bar of any of the supported browsers (Firefox, Chrome, and Microsoft Edge).
+Open the app at:
 
-Upload an image and press Send button. We have provided sample images for users in the "detection_labels/images/" folder.
+```
+http://127.0.0.1:8000/
+```
 
+Upload an image → Click **Send**
 
-![Alt ](/Fig/Demo_prototype.jpg)
+Sample images are available in:
 
+```
+detection_labels/images/
+```
 
-The output will be processed image and a resulting table like the one below would be provided. 
+---
 
+## 🔍 Output Examples
 
-![Alt ](/Fig/Demo_prototype2.jpg)
+Here’s how the system looks during use:
 
+### **Web Interface**
 
+![Demo UI](/Fig/Demo_prototype.jpg)
+
+### **Final Results Display**
+
+![Demo Results](/Fig/Demo_prototype2.jpg)
+
+---
+
+## 🎯 Final Notes
+
+Fish-Sense demonstrates how AI can help make aquaculture smarter and more sustainable by:
+
+* Reducing manual workload
+* Supporting early disease detection
+* Improving biomass tracking
+* Helping farmers make quick, informed decisions
+
+This project is perfect for:
+
+* Students
+* Researchers
+* Developers
+* Aquaculture professionals
+
+Feel free to modify, expand, or build upon the system!
+
+---
