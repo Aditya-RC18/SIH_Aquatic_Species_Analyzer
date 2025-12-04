@@ -177,7 +177,7 @@ Here’s how the system looks during use:
 
 ### **Web Interface**
 
-![Demo UI](/Fig/Demo_prototype.jpg)
+![Demo UI](Fish-Sense-main\Fig\Demo_prototype.jpg)
 
 ### **Final Results Display**
 
